@@ -1,0 +1,76 @@
+Description: >
+
+    This template deploys 4 two tier VPCs (Development, Testing, Staging, Production)
+    Last Modified: 23rd Feb 2018
+
+Parameters:
+  TemplateBaseUrlParameter:
+    Type: String
+    Default: https://s3.amazonaws.com/cf.awsguy.solutions/cf-vpcs
+    Description: Enter the base url (without a trailing slash) to the s3 bucket containing the cloudformation vpc stack
+
+Resources:
+    DevelopmentVpc:
+        Type: AWS::CloudFormation::Stack
+        Properties:
+            TemplateURL: !Join ['/', [!Ref TemplateBaseUrlParameter, "vpc.yaml" ]]
+            Parameters:
+                EnvironmentName:    Development
+                VpcCIDR:            10.0.0.0/16
+                PublicSubnet1CIDR:  10.0.8.0/21
+                PublicSubnet2CIDR:  10.0.16.0/21
+                PrivateSubnet1CIDR: 10.0.24.0/21
+                PrivateSubnet2CIDR: 10.0.32.0/21
+            Tags:
+              -
+                Key: "auto-delete"
+                Value: "no"
+
+    TestingVpc:
+        Type: AWS::CloudFormation::Stack
+        Properties:
+            TemplateURL: !Join ['/', [!Ref TemplateBaseUrlParameter, "vpc.yaml" ]]
+            Parameters:
+                EnvironmentName:    Testing
+                VpcCIDR:            10.1.0.0/16
+                PublicSubnet1CIDR:  10.1.8.0/21
+                PublicSubnet2CIDR:  10.1.16.0/21
+                PrivateSubnet1CIDR: 10.1.24.0/21
+                PrivateSubnet2CIDR: 10.1.32.0/21
+            Tags:
+              -
+                Key: "auto-delete"
+                Value: "no"
+
+    StagingVpc:
+        Type: AWS::CloudFormation::Stack
+        Properties:
+            TemplateURL: !Join ['/', [!Ref TemplateBaseUrlParameter, "vpc.yaml" ]]
+            Parameters:
+                EnvironmentName:    Staging
+                VpcCIDR:            10.2.0.0/16
+                PublicSubnet1CIDR:  10.2.8.0/21
+                PublicSubnet2CIDR:  10.2.16.0/21
+                PrivateSubnet1CIDR: 10.2.24.0/21
+                PrivateSubnet2CIDR: 10.2.32.0/21
+            Tags:
+              -
+                Key: "auto-delete"
+                Value: "no"
+
+
+    ProductionVpc:
+        Type: AWS::CloudFormation::Stack
+        Properties:
+            TemplateURL: !Join ['/', [!Ref TemplateBaseUrlParameter, "vpc.yaml" ]]
+            Parameters:
+                EnvironmentName:    Production
+                VpcCIDR:            10.3.0.0/16
+                PublicSubnet1CIDR:  10.3.8.0/21
+                PublicSubnet2CIDR:  10.3.16.0/21
+                PrivateSubnet1CIDR: 10.3.24.0/21
+                PrivateSubnet2CIDR: 10.3.32.0/21
+            Tags:
+              -
+                Key: "auto-delete"
+                Value: "no"
